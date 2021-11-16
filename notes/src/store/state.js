@@ -1,7 +1,9 @@
 const state = {
     token: null,
     activeName: 'first',
-    username: ''
+    username: '',
+    note:[],
+    cataIndex:''
 }
 
 export default state

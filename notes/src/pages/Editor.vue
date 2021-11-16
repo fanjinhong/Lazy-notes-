@@ -6,12 +6,13 @@
     <div id="editor" class="editor"></div>
     <div class="btn">
       <el-button type="info" round class="exit" @click="exitEditor">退出</el-button>
-      <el-button type="danger" round class="add">保存</el-button>
+      <el-button type="danger" round class="add" @click="submit">保存</el-button>
     </div>
   </div>
 </template>
 
 <script>
+import {mapState} from "vuex";
 import E from "wangeditor";
 export default {
   name: "Editor",
@@ -29,25 +30,29 @@ export default {
     this.editor.create();
     this.editor.txt.html();
   },
+  computed:{
+    ...mapState(['note'])
+  },
   methods: {
     submit() {
-      var data = FormData();
+      var data = new FormData();
       data.append("title", this.title);
       data.append("content", this.editor.txt.html);
+      // this.$axios({
+      //   methdo: post,
+      //   url: "",
+      //   data: data,
+      // })
+      //   .then((res) => {
+      //     if (res.state == 200) {
+      //       console.log("success");
+      //     }
+      //   })
+      //   .catch((res) => {
+      //     console.log(res);
+      //   });
+        this.$store.commit('ADD_NOTE',this.title)
 
-      this.$axios({
-        methdo: post,
-        url: "",
-        data: data,
-      })
-        .then((res) => {
-          if (res.state == 200) {
-            console.log("success");
-          }
-        })
-        .catch((res) => {
-          console.log(res);
-        });
     },
     exitEditor(){
         this.$router.push({

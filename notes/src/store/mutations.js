@@ -12,6 +12,15 @@ const mutations = {
     [types.USERNAME](state, data) {
         localStorage.setItem('username', data)
         state.username = data
+    },
+    ADD_CATAGORY(state,value){
+        state.note.push(value)
+    },
+    ADD_NOTE(state,value){
+        state.note[0].noteTitle.push(value)
+    },
+    SET_CATAINDEX(state,value){
+        state.cataIndex = value
     }
 }
 

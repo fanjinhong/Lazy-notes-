@@ -1,13 +1,13 @@
 <template>
   <div class="layout">
     <el-row :gutter="20"> 
-      <el-col :span="6" v-for=" item in note" :key='item.index'
+      <el-col :span="6" v-for="(item, index) in note" :key='index'
         ><div class="grid-content bg-purple">
           <div class="noteBox">
             <el-card class="box-card">
               <div slot="header" class="clearfix title">
                 <span><strong>{{item.name}}</strong></span>
-                <el-button style="float: right; padding: 3px 0" type="text" @click="addNote" class="addnote"
+                <el-button style="float: right; padding: 3px 0" type="text" @click="addNote(index)" class="addnote"
                   >添加笔记 <i class="el-icon-circle-plus-outline"></i></el-button
                 >
               </div>
@@ -20,7 +20,7 @@
         </div>
       </el-col>
       <el-col :span="6" class="addNoteCatagory">
-          <a href=""><i class="el-icon-circle-plus-outline"></i></a>
+          <button class="btn-add" @click="addCatagory"><i class="el-icon-circle-plus-outline"></i></button>
       </el-col>
       <!-- <el-col :span="6"><div class="grid-content bg-purple">
           <div class="noteBox">
@@ -46,25 +46,28 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
-  name: "note",
+  name: "noteCatagory",
   data() {
     return {
-        note:[
-            {name:'HTML',noteTitle:['笔记1','笔记2','笔记3','笔记4']},
-            {name:'CSS',noteTitle:['笔记1','笔记2','笔记3','笔记4']},
-            {name:'Javascript',noteTitle:['笔记1','笔记2','笔记3','笔记4']},
-            {name:'Webpack',noteTitle:['笔记1','笔记2','笔记3','笔记4']},
-            {name:'Vue',noteTitle:['笔记1','笔记2','笔记3','笔记4']},
-            {name:'React',noteTitle:['笔记1','笔记2','笔记3','笔记4']}
-        ]
+        
     };
   },
+  computed:{
+    ...mapState(['note','cataIndex'])
+  },
   methods: {
-      addNote(){
-          this.$router.push({
-              name:'edit'
-          })
+      addNote(index){
+        this.$router.push({
+            name:'edit',
+        })
+        this.$store.commit('SET_CATAINDEX',index)
+      },
+      addCatagory(){
+        let catagroryName = prompt("请输入笔记分类名称");
+        const cataObj = {name:catagroryName, noteTitle:[]};
+        this.$store.commit("ADD_CATAGORY",cataObj)
       }
   },
 };
@@ -137,5 +140,9 @@ export default {
   .addnote{
     color: #db4c3f !important;
   }
+}
+.btn-add{
+  background-color: white;
+  border: 0px solid white;
 }
 </style>
