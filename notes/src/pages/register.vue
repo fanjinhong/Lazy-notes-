@@ -1,10 +1,11 @@
 <template>
-    <div class="bg">
+  <div class="bg">
     <div class="container">
       <div class="login">
         <div class="logo">
-          <h3>Lazy   Note</h3>
+          <h3>Lazy Note</h3>
         </div>
+        <p>嘿，今天要做什么，你准备好了吗？</p>
         <div class="login-input">
           <el-form
             :model="ruleForm"
@@ -29,26 +30,34 @@
                 clearable
               ></el-input>
             </el-form-item>
+            <el-form-item label="" prop="checkPass">
+              <el-input
+                type="password"
+                v-model="ruleForm.checkPass"
+                autocomplete="off"
+                placeholder="确认密码"
+                clearable
+              ></el-input>
+            </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="submitForm('ruleForm')">
                 <loading v-if="load"></loading>
-                <span v-else>登录</span>
+                <span v-else>注册</span>
               </el-button>
             </el-form-item>
           </el-form>
           <p class="register">
-            <router-link to="/register">还没有账号？注册</router-link>
+            <router-link to="/login">已有账号,去登录</router-link>
           </p>
         </div>
       </div>
     </div>
-    </div>
+  </div>
 </template>
 
 <script>
 import loading from "../components/loading";
 export default {
-  name: "login",
   components: { loading },
   data() {
     var checkEmail = (rule, value, callback) => {
@@ -67,8 +76,12 @@ export default {
       }, 1000);
     };
     var validatePass = (rule, value, callback) => {
+      let reg =
+        /(?!^[0-9]+$)(?!^[A-z]+$)(?!^[^A-z0-9]+$)^[^\s\u4e00-\u9fa5]{6,16}$/;
       if (value === "") {
         callback(new Error("请输入密码"));
+      } else if (!reg.test(value)) {
+        callback(new Error("密码长度需6-16位，且包含字母和字符"));
       } else {
         if (this.ruleForm.checkPass !== "") {
           this.$refs.ruleForm.validateField("checkPass");
@@ -76,16 +89,27 @@ export default {
         callback();
       }
     };
+    var validatePass2 = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请再次输入密码"));
+      } else if (value !== this.ruleForm.pass) {
+        callback(new Error("两次输入密码不一致!"));
+      } else {
+        callback();
+      }
+    };
     return {
-      load: false,
       ruleForm: {
+        checkPass: "",
         pass: "",
         email: "",
       },
       rules: {
         pass: [{ validator: validatePass, trigger: "blur" }],
+        checkPass: [{ validator: validatePass2, trigger: "blur" }],
         email: [{ validator: checkEmail, trigger: "blur" }],
       },
+      load: false,
     };
   },
   methods: {
@@ -93,32 +117,35 @@ export default {
       this.load = true;
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$router.push({
-            name:'index'
-        })
+          console.log(this.ruleForm);
           // this.$api.user
-          //   .login({
+          //   .register({
           //     email: this.ruleForm.email,
           //     password: this.ruleForm.pass,
+          //     recheck: this.ruleForm.checkPass,
           //   })
-          //   .then(({ data }) => {
+          //   .then((res) => {
+          //     console.log(res);
           //     this.load = false;
-          //     if (data.status == "0") {
-          //       this.$store.dispatch("UserLogin", data.result.token);
-          //       this.$store.dispatch("UserName", data.result.email);
-          //       let redirect = decodeURIComponent(
-          //         this.$route.query.redirect || "/"
+          //     if (res.data.status == "0") {
+          //       this.$alert(
+          //         "注册成功, 请您到您的邮箱中点击激活链接来激活您的帐号",
+          //         "提示",
+          //         {
+          //           confirmButtonText: "确定",
+          //           callback: (action) => {
+          //             // this.$router.go(0)
+          //             this.$router.push("/login");
+          //           },
+          //         }
           //       );
-          //       this.$router.push({
-          //         name:'index'
-          //       });
           //     } else {
-          //       this.$message.error(data.msg);
+          //       this.$message.error(res.data.msg);
           //     }
           //   });
         } else {
-          alert("请输入正确的邮箱地址与密码!!");
-          return false;
+          // console.log("error submit!!");
+          // return false;
         }
       });
     },
@@ -126,42 +153,46 @@ export default {
 };
 </script>
 
+<style lang="scss" scoped>
+  .container{
+    height: 75%;
+  }
+</style>
 <style lang='scss'>
-.bg{
+.bg {
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  // background: url('../common/img/1.jpg') no-repeat;
-  // background-size: cover;
+  background: url("../common/img/loginbackground.jpg") no-repeat;
+  background-size: cover;
 }
 .container {
   width: 25%;
-  height: 60%;
-  margin-top: -10%;
+  margin: 10%;
 }
 .login {
   width: 100%;
-  height: 100%;
-  background: #db4c3f;
-  border: 2px #db4c3f solid;
-  opacity: 0.4;
+  height: 85%;
+  background: #c49591 ;
+  border: 2px #c49591 solid;
   border-radius: 20px;
+  opacity: 0.7;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   color: #fff;
   .logo {
-    color:rgb(163, 63, 38) !important;
+    color: rgb(3, 174, 189);
     font-size: 30px;
     // font-style: italic;
     font-weight: bold;
     margin-bottom: 20px;
     h3 {
-      margin: 0 !important;
-      font-size: 200% !important;
+      font-size: 40px;
+      font: italic 2em Georgia, serif;
     }
   }
   .login-input {
@@ -177,17 +208,16 @@ export default {
     }
     .el-button {
       border-radius: 30px !important;
-      width: 100% !important;
-      text-align: center;
-      background: #cf6c63 !important;
-      color: rgb(233, 231, 229) !important;
+      width: 80%;
+      background: rgb(3, 174, 189);
+      color: #fff;
       border: 0;
     }
     .register {
       text-align: right;
       margin: 10px;
       a {
-        color: #fafafa !important;
+        color: #fff;
       }
     }
   }
