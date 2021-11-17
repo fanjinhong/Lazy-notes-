@@ -1,7 +1,6 @@
 <template>
   <div id="login">
-   
-      11
+      
   </div>
 </template>
 
@@ -10,7 +9,7 @@
 
 export default {
   name: 'Login',
- 
+
 }
 </script>
 

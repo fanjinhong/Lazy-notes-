@@ -3,6 +3,7 @@ import router from './router.js'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import App from './App.vue'
+import * as echarts from 'echarts';
 import {Message} from 'element-ui'
 
 axios.defaults.baseURL = '/api';
@@ -34,12 +35,13 @@ axios.defaults.timeout = 8000;
 // });
 // Vue.use(Message);
 Vue.use(VueAxios, axios);
-
+Vue.prototype.$echarts = echarts
 
 Vue.config.productionTip = false
 
 Vue.prototype.$message = Message;
 new Vue({
+  echarts,
   router,
   render: h => h(App),
 }).$mount('#app')
