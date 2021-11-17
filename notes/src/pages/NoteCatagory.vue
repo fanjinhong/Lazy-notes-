@@ -1,26 +1,38 @@
 <template>
   <div class="layout">
-    <el-row :gutter="20"> 
-      <el-col :span="6" v-for="(item, index) in note" :key='index'
+    <el-row :gutter="20">
+      <el-col :span="6" v-for="(item, index) in note" :key="index"
         ><div class="grid-content bg-purple">
           <div class="noteBox">
             <el-card class="box-card">
               <div slot="header" class="clearfix title">
-                <span><strong>{{item.name}}</strong></span>
-                <el-button style="float: right; padding: 3px 0" type="text" @click="addNote(index)" class="addnote"
-                  >添加笔记 <i class="el-icon-circle-plus-outline"></i></el-button
+                <span
+                  ><strong>{{ item.name }}</strong></span
                 >
+                <el-button
+                  style="float: right; padding: 3px 0"
+                  type="text"
+                  @click="addNote(index)"
+                  class="addnote"
+                  >添加笔记 <i class="el-icon-circle-plus-outline"></i
+                ></el-button>
               </div>
-              <br>
-              <div v-for="noteTitle in item.noteTitle" :key="noteTitle.index" class="text item">
-                {{noteTitle}}
+              <br />
+              <div
+                v-for="(noteTitle, index2) in item.noteTitle"
+                :key="index2"
+                class="text item"
+              >
+                <button class="modify" @click="modifyNote(index,index2)">{{ noteTitle }}</button>
               </div>
             </el-card>
           </div>
         </div>
       </el-col>
       <el-col :span="6" class="addNoteCatagory">
-          <button class="btn-add" @click="addCatagory"><i class="el-icon-circle-plus-outline"></i></button>
+        <button class="btn-add" @click="addCatagory">
+          <i class="el-icon-circle-plus-outline"></i>
+        </button>
       </el-col>
       <!-- <el-col :span="6"><div class="grid-content bg-purple">
           <div class="noteBox">
@@ -46,29 +58,31 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import { mapState } from "vuex";
 export default {
   name: "noteCatagory",
   data() {
-    return {
-        
-    };
+    return {};
   },
-  computed:{
-    ...mapState(['note','cataIndex'])
+  computed: {
+    ...mapState(["note", "cataIndex"]),
   },
   methods: {
-      addNote(index){
-        this.$router.push({
-            name:'edit',
-        })
-        this.$store.commit('SET_CATAINDEX',index)
-      },
-      addCatagory(){
-        let catagroryName = prompt("请输入笔记分类名称");
-        const cataObj = {name:catagroryName, noteTitle:[]};
-        this.$store.commit("ADD_CATAGORY",cataObj)
-      }
+    addNote(index) {
+      this.$router.push({
+        name: "edit",
+      });
+      console.log(index);
+      this.$store.commit("SET_CATAINDEX", index);
+    },
+    addCatagory() {
+      let catagroryName = prompt("请输入笔记分类名称");
+      const cataObj = { name: catagroryName, noteTitle: [] };
+      this.$store.commit("ADD_CATAGORY", cataObj);
+    },
+    modifyNote(value1,value2){
+      console.log(value1, value2);
+    }
   },
 };
 </script>
@@ -99,7 +113,7 @@ export default {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    background-color: white;;
+    background-color: white;
   }
 }
 .addNoteCatagory {
@@ -118,8 +132,8 @@ export default {
 .text {
   font-size: 14px;
 }
-.title{
-  color:#db4c3f
+.title {
+  color: #db4c3f;
 }
 .item {
   margin-bottom: 15px;
@@ -137,12 +151,18 @@ export default {
 .box-card {
   width: 100%;
   height: 100%;
-  .addnote{
+  .addnote {
     color: #db4c3f !important;
   }
 }
-.btn-add{
+.btn-add {
   background-color: white;
   border: 0px solid white;
+}
+.modify {
+  border: none;
+  background-color: transparent;
+  outline: none;
+  font-size: 16px;
 }
 </style>

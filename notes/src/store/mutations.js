@@ -17,10 +17,38 @@ const mutations = {
         state.note.push(value)
     },
     ADD_NOTE(state,value){
-        state.note[0].noteTitle.push(value)
+        state.note[state.cataIndex].noteTitle.push(value)
     },
     SET_CATAINDEX(state,value){
         state.cataIndex = value
+    },
+    selectMenu(state, val) {
+        // val.path === '/home' ? state.currentMenu = {
+        //     path: "/home",
+        //     name: "Home",
+        //     label: "首页",
+        //     icon: "s-home",
+        //     url: "/Home",
+        //   } : state.currentMenu = val
+        if (val.path === '/home') {
+            state.currentMenu = {
+                path: "/home",
+                name: "Home",
+                label: "首页",
+                icon: "s-home",
+                url: "/Home",
+            }
+        }else{
+            state.currentMenu = val;
+            let result = state.tabList.findIndex(item => item.name === val.name)
+            if(result === -1) {
+                state.tabList.push(val)
+            }
+        }
+    },
+    closeTab(state, val){
+        let result = state.tabList.findIndex(item => item.name === val.name)
+        state.tabList.splice(result, 1)
     }
 }
 

@@ -56,7 +56,7 @@ export default {
     },
     exitEditor(){
         this.$router.push({
-            name:'index'
+            name:'notebook'
         })
     }
   },
@@ -65,8 +65,8 @@ export default {
 
 <style lang="scss">
 .textBox{
-    width: 50%;
-    height: 70%;
+    width: 70%;
+    height: 90% ;
     margin: 0 auto;
 }
 .title {
