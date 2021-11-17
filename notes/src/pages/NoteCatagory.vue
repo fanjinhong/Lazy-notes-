@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <el-row :gutter="20">
-      <el-col :span="6" v-for="(item, index) in note" :key="index"
+      <el-col :span="8" v-for="(item, index) in note" :key="index"
         ><div class="grid-content bg-purple">
           <div class="noteBox">
             <el-card class="box-card">

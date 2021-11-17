@@ -9,7 +9,10 @@
             <Header></Header>
         </el-header>
         <el-main :style="{ 'padding-top': 0}">
-          <router-view></router-view>
+          <keep-alive>
+              <router-view></router-view>
+          </keep-alive>
+          
         </el-main>
       </el-container>
     </el-container>

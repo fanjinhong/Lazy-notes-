@@ -44,7 +44,6 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
 export default {
   name: "Aside",
    data() {
@@ -54,17 +53,17 @@ export default {
           {
           path: "/",
           name: "catalogue",
-          label: "笔记目录",
+          label: "目录",
           icon: "tickets",
           url: "/catalogue",
         },
-        // {
-        //   path: "/notebook",
-        //   name: "notebook",
-        //   label: "笔记",
-        //   icon: "notebook-1",
-        //   url: "/notebook",
-        // },
+        {
+          path: "/notebook",
+          name: "notebook",
+          label: "笔记",
+          icon: "notebook-1",
+          url: "/notebook",
+        },
         {
           path: "/todo",
           name: "todo",

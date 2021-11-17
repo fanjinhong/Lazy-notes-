@@ -18,7 +18,9 @@
           <img :src="userImg" class="user" />
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item icon="el-icon-plus">个人中心</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-plus">
+              <button class="accountInfo">个人中心</button>
+          </el-dropdown-item>
           <el-dropdown-item icon="el-icon-circle-plus">
             <button class="logout" @click="logout">登出</button>
           </el-dropdown-item>
@@ -83,9 +85,12 @@ header {
   background-color: transparent;
   outline: none;
 }
-.el-dropdown-item{
-    color: #e96f63;
+.accountInfo{
+  border: 0;
+  background-color: transparent;
+  outline: none;
 }
+
 </style>
 
 <style lang="scss">
