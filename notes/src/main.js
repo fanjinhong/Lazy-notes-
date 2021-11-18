@@ -5,9 +5,10 @@ import VueAxios from 'vue-axios'
 import App from './App.vue'
 import * as echarts from 'echarts';
 import {Message} from 'element-ui'
-
 axios.defaults.baseURL = '/api';
 axios.defaults.timeout = 8000;
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 //axios.defaults.baseURL = env.baseURL;
 
 
@@ -35,6 +36,7 @@ axios.defaults.timeout = 8000;
 // });
 // Vue.use(Message);
 Vue.use(VueAxios, axios);
+Vue.use(ElementUI);
 Vue.prototype.$echarts = echarts
 
 Vue.config.productionTip = false
