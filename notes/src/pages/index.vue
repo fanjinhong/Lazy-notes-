@@ -9,7 +9,7 @@
             <Header></Header>
         </el-header>
         <el-main :style="{ 'padding-top': 0}">
-          <keep-alive>
+          <keep-alive exclude="Editor">
               <router-view></router-view>
           </keep-alive>
           
